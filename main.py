@@ -1,9 +1,19 @@
 from fastapi import FastAPI
 from models.mail import Mail
 from send_email import send_email
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="How to Send Email")
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def index():
