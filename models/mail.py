@@ -1,8 +1,12 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
-class Mail(BaseModel):
-    subject: str
-    body: str
-    recipients: list[str]
-    sender: str
-    password: str
+from fastapi import Form
+
+
+@dataclass
+class Mail:
+    subject: str = Form(...)
+    body: str = Form(...)
+    recipients: str = Form(...)
+    sender: str = Form(...)
+    password: str = Form(...)

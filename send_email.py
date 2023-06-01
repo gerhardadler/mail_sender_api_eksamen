@@ -20,7 +20,7 @@ def send_email(mail: Mail):
     msg = MIMEText(mail.body)
     msg["Subject"] = mail.subject
     msg["From"] = mail.sender
-    msg["To"] = ", ".join(mail.recipients)
+    msg["To"] = mail.recipients
     with smtplib.SMTP_SSL(Env.MAIL_SERVER, Env.MAIL_PORT) as smtp_server:
         smtp_server.login(mail.sender, mail.password)
         smtp_server.sendmail(mail.sender, mail.recipients, msg.as_string())

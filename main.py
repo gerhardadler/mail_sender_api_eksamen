@@ -21,7 +21,7 @@ def index():
     return "I'm a teapot"
 
 @app.post("/send-email")
-def send_email_route(mail: Mail):
+def send_email_route(mail: Mail = Depends()):
     try:
         send_email(mail)
     except smtplib.SMTPRecipientsRefused:
