@@ -1,3 +1,4 @@
+import smtplib
 from fastapi import FastAPI
 from models.mail import Mail
 from send_email import send_email
@@ -21,5 +22,12 @@ def index():
 
 @app.post("/send-email")
 def send_email_route(mail: Mail):
-    send_email(mail)
-    return "Success"
+    try:
+        send_email(mail)
+    except smtplib.SMTPRecipientsRefused as e:
+        return "Error with recipients", 400
+    except smtplib.SMTPAuthenticationError as e:
+        return "Sender and password not accepted", 402
+    except Exception as e:
+        return "Unknown exception", 500
+    return "Success", 200
