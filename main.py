@@ -1,5 +1,5 @@
 import smtplib
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from models.mail import Mail
 from send_email import send_email
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,9 +25,9 @@ def send_email_route(mail: Mail):
     try:
         send_email(mail)
     except smtplib.SMTPRecipientsRefused:
-        return HTTPException(status_code=400, detail="Error with recipients",)
+        raise HTTPException(status_code=400, detail="Error with recipients",)
     except smtplib.SMTPAuthenticationError:
-        return HTTPException(status_code=402, detail="Sender and password not accepted",)
+        raise HTTPException(status_code=402, detail="Sender and password not accepted",)
     except Exception:
-        return HTTPException(status_code=500, detail="Unknown exception")
+        raise HTTPException(status_code=500, detail="Unknown exception")
     return "Success"
