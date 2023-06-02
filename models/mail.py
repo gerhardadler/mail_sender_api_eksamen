@@ -8,7 +8,7 @@ from fastapi import Form, UploadFile
 class Mail:
     subject: str = Form(...)
     body: str = Form(...)
-    recipients: str = Form(...)
+    recipients: Union[str, None] = Form(None)
     csv_recipients: Union[UploadFile, None] = None
     sender: str = Form(...)
     password: str = Form(...)
