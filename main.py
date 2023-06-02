@@ -21,9 +21,9 @@ def index():
     return "I'm a teapot"
 
 @app.post("/send-email")
-def send_email_route(mail: Mail = Depends()):
+async def send_email_route(mail: Mail = Depends()):
     try:
-        send_email(mail)
+        await send_email(mail)
     except smtplib.SMTPRecipientsRefused:
         raise HTTPException(status_code=400, detail="Error with recipients",)
     except smtplib.SMTPAuthenticationError:
