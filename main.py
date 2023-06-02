@@ -1,4 +1,5 @@
 import smtplib
+import socket
 from fastapi import Depends, FastAPI, HTTPException
 from models.mail import Mail
 from send_email import send_email
@@ -25,9 +26,13 @@ async def send_email_route(mail: Mail = Depends()):
     try:
         await send_email(mail)
     except smtplib.SMTPRecipientsRefused:
-        raise HTTPException(status_code=400, detail="Error with recipients",)
+        raise HTTPException(status_code=400, detail="Error with recipients")
     except smtplib.SMTPAuthenticationError:
-        raise HTTPException(status_code=402, detail="Sender and password not accepted",)
-    except Exception:
+        raise HTTPException(status_code=402, detail="Sender and password not accepted")
+    except socket.gaierror:
+        raise HTTPException(status_code=400, detail="Email server not found")
+    except Exception as e:
+        print(type(e))
+        print(e)
         raise HTTPException(status_code=500, detail="Unknown exception")
     return "Success"

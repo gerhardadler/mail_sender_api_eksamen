@@ -12,3 +12,5 @@ class Mail:
     csv_recipients: Union[UploadFile, None] = None
     sender: str = Form(...)
     password: str = Form(...)
+    email_server: str = Form(...)
+    email_port: int = Form(...)
